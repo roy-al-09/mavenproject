@@ -11,14 +11,14 @@ pipeline {
     
     stage ('execute unit test framework') {
       steps {
-        withMaven(globalMavenSettingsConfig: '', jdk: '', maven: '', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
+        withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MAVEN_HOME', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
         sh 'mvn test'
         }
       }
     }
 
         
-    stage ('sonar analysis') {
+    stage ('sonar analysis & generate artifacts') {
       steps {
         withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonar') {              // script generated from Pipeline Syntax
         sh 'sonar:sonar'
@@ -29,7 +29,7 @@ pipeline {
 
     stage ('generate artifacts') {
       steps {
-        withMaven(globalMavenSettingsConfig: '', jdk: '', maven: '', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
+        withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MAVEN_HOME', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
         sh 'mvn package'
         }
       }
