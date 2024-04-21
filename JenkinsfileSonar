@@ -20,7 +20,7 @@ pipeline {
         
     stage ('sonar analysis') {
       steps {
-        withSonarQubeEnv(credentialsId: 'sonar') {              // script generated from Pipeline Syntax
+        withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonar') {              // script generated from Pipeline Syntax
         sh 'sonar:sonar'
         }
       }
