@@ -27,7 +27,7 @@ pipeline {
     }
 
 
-    stage ('execute unit test framework') {
+    stage ('generate artifacts') {
       steps {
         withMaven(globalMavenSettingsConfig: '', jdk: '', maven: '', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
         sh 'mvn package'
