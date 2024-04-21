@@ -1,0 +1,38 @@
+pipeline {
+  agent any
+
+  stages {
+    stage ('scm checkout') {
+      steps {
+        git branch: 'master', url: 'https://github.com/roy-al-09/mavenproject.git'        // script generated from Pipeline Syntax
+      }
+    }
+
+    
+    stage ('execute unit test framework') {
+      steps {
+        withMaven(globalMavenSettingsConfig: '', jdk: '', maven: '', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
+        sh 'mvn test'
+        }
+      }
+    }
+
+        
+    stage ('sonar analysis') {
+      steps {
+        withSonarQubeEnv(credentialsId: 'sonar') {              // script generated from Pipeline Syntax
+        sh 'sonar:sonar'
+        }
+      }
+    }
+
+
+    stage ('execute unit test framework') {
+      steps {
+        withMaven(globalMavenSettingsConfig: '', jdk: '', maven: '', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
+        sh 'mvn package'
+        }
+      }
+    }
+  }
+}
