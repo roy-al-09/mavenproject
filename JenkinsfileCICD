@@ -1,1 +1,43 @@
+pipeline {
+  agent any
 
+  stages {
+    stage ('scm checkout') {
+      steps {
+        git branch: 'master', url: 'https://github.com/roy-al-09/mavenproject.git'        // script generated from Pipeline Syntax
+      }
+    }
+
+    
+    stage ('execute unit test framework') {
+      steps {
+        withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MAVEN_HOME', mavenSettingsConfig: '', traceability: true) {          // script generated from Pipeline Syntax
+        sh 'mvn test'
+        }
+      }
+    }
+
+        
+    stage ('sonar analysis & generate artifacts') {
+      steps {
+        withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MAVEN_HOME', mavenSettingsConfig: '', traceability: true) {
+        withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonar') {              // script generated from Pipeline Syntax
+        sh 'mvn package sonar:sonar'
+	       }
+
+    
+    tage ('deploy to tomcat-dev') {
+      steps {
+        sshagent([tomcatdev]) {
+        scp -o StrictHostKeyChecking=no -l **/*.war ec2-user@13.233.87.39:/usr/share/tomcat/webapps/
+	}
+      }
+    }
+
+
+
+        }
+      }
+    }
+  }
+}
