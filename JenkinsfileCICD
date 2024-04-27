@@ -23,7 +23,9 @@ pipeline {
         withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MAVEN_HOME', mavenSettingsConfig: '', traceability: true) {
         withSonarQubeEnv(credentialsId: 'sonar', installationName: 'sonar') {              // script generated from Pipeline Syntax
         sh 'mvn package sonar:sonar'
-	       }
+        }
+      }
+    }
 
     
     stage ('deploy to tomcat-dev') {
