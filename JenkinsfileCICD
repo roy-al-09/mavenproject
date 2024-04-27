@@ -29,7 +29,7 @@ pipeline {
     stage ('deploy to tomcat-dev') {
       steps {
         sshagent([tomcatdev]) {
-        scp -o StrictHostKeyChecking=no -l **/*.war ec2-user@13.233.87.39:/usr/share/tomcat/webapps/
+        scp -o StrictHostKeyChecking=no **/*.war ec2-user@13.233.87.39:/usr/share/tomcat/webapps/
 	}
       }
     }
